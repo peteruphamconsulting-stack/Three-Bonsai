@@ -76,7 +76,7 @@ def replace_zeros_and_renormalize(X: np.ndarray, eps: float) -> np.ndarray:
     return normalize_to_simplex(Xc)
 
 
-def clr_transform(X_simplex: np.ndarray, eps: float = 1e-12) -> np.ndarray:
+def clr_transform(X_simplex: np.ndarray, eps: float = 0.5) -> np.ndarray:
     """
     CLR transform:
       clr(x) = log(x) - mean(log(x))  (row-wise)
@@ -103,7 +103,7 @@ def helmert_basis(D: int) -> np.ndarray:
     return H
 
 
-def ilr_transform(X_simplex: np.ndarray, eps: float = 1e-12) -> np.ndarray:
+def ilr_transform(X_simplex: np.ndarray, eps: float = 0.5) -> np.ndarray:
     """
     ILR transform via Helmert basis:
       ilr(x) = clr(x) @ H   where H is D x (D-1) orthonormal basis
@@ -393,7 +393,7 @@ def main() -> None:
     ap.add_argument("--samples", type=int, default=2000, help="Subsample size per policy per replicate.")
     ap.add_argument("--reps", type=int, default=1, help="Number of subsampling replicates.")
     ap.add_argument("--seed", type=int, default=42, help="Base RNG seed.")
-    ap.add_argument("--eps", type=float, default=1e-12, help="Pseudocount for zeros before log-ratio.")
+    ap.add_argument("--eps", type=float, default=0.5, help="Pseudocount for zeros before log-ratio (default: 0.5).")
 
     ap.add_argument("--pca_dim", type=int, default=None,
                     help="Optional PCA dimension after CLR/ILR (use sparingly; changes topology).")
